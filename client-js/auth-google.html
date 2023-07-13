@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="signInWithGoogle()">Sign in with Google</button>
+
+    <script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
+    <script>
+        var config = {
+            apiKey: "AIzaSyDYFOp1rKlnOdq9pMUJWyiaovpd9EsfuBc",
+            authDomain: "elevated-cat-392517.firebaseapp.com",
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script>
+        function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+
+            firebase.auth().signInWithPopup(provider)
+            .then(result => console.log(result))
+            .catch(console.log)
+        }
+    </script>
+</body>
+</html>
