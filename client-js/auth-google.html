@@ -22,10 +22,15 @@
 
             firebase.auth().signInWithPopup(provider)
             .then(() =>
-                firebase.auth().currentUser.getIdTokenResult()
-                .then(token => console.log(token.claims))
+                firebase.auth().currentUser.getIdTokenResult(true)
+                .then(result => {
+                    if (result.claims.role === 'admin') {
+                        window.location.href = 'admin.html';
+                    }
+                })
+                .catch(error => console.log(error))
             )
-            .catch(console.log)
+            .catch(error => console.log(error));
         }
     </script>
 </body>
