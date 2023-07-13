@@ -1,0 +1,25 @@
+{
+  "name": "blocking-functions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest --watchAll --silent",
+    "deploy-sign-in": "gcloud functions deploy beforeSignIn --runtime nodejs20 --trigger-http --allow-unauthenticated --region=europe-central2 --set-env-vars ADMIN_EMAILS='miso.moravik4@gmail.com'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichalMoravik/google-identity-guide.git"
+  },
+  "author": "https://github.com/MichalMoravik",
+  "license": "MIT",
+  "homepage": "https://github.com/MichalMoravik/google-identity-guide",
+  "dependencies": {
+    "gcip-cloud-functions": "^0.2.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.22.5",
+    "jest": "^29.6.1"
+  }
+}
