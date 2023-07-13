@@ -8,7 +8,8 @@ export default function Home() {
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      console.log(result);
+      const { claims } = await auth.currentUser.getIdTokenResult();
+      console.log(claims);
     } catch (error) {
       console.log(error);
     }
