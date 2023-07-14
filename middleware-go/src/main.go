@@ -12,7 +12,6 @@ import (
 )
 
 func userHandler(c *fiber.Ctx) error {
-    // return the user from context as json 200 response
     user := c.Locals("user").(*m.User)
     return c.JSON(user)
 }
@@ -23,7 +22,8 @@ func main() {
     firebaseApp := c.InitFirebase()
     authClient := c.InitFirebaseAuth(firebaseApp)
 
-    app.Get("/user", mw.UseAuth(authClient), userHandler)
+    // only authenticated admins can access this route
+    app.Get("/user", mw.UseAuth(authClient), mw.UseAuthZ("admin"), userHandler)
 
     log.Fatal(app.Listen(":" + os.Getenv("PORT")))
 }
