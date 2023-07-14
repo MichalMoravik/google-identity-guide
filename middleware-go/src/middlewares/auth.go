@@ -5,15 +5,11 @@ import (
     "strings"
     "context"
 
+    m "middleware-go/src/models"
+
     "github.com/gofiber/fiber/v2"
     "firebase.google.com/go/auth"
 )
-
-type User struct {
-    UID string
-    Email string
-    Role string
-}
 
 type AuthClient interface {
 	VerifyIDToken(ctx context.Context, idToken string) (*auth.Token, error)
@@ -56,7 +52,7 @@ func UseAuth(authClient AuthClient) fiber.Handler {
             })
         }
 
-        user := &User{
+        user := &m.User{
             UID: decodedToken.UID,
             Email: decodedToken.Claims["email"].(string),
             Role: decodedToken.Claims["role"].(string),
