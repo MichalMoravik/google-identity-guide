@@ -5,6 +5,8 @@ import (
     "context"
     "net/http/httptest"
 
+    m "middleware-go/src/models"
+
     "github.com/stretchr/testify/assert"
     "github.com/stretchr/testify/mock"
     "github.com/stretchr/testify/require"
@@ -34,7 +36,7 @@ func TestAuthMiddlewareSuccess(t *testing.T) {
         app := fiber.New()
         app.Get("/", UseAuth(authClient), func(c *fiber.Ctx) error {
             // user should be present at this stage
-            user := c.Locals("user").(*User)
+            user := c.Locals("user").(*m.User)
 
             assert.Equal(t, "UID123", user.UID)
             assert.Equal(t, "x@gmail.com", user.Email)
