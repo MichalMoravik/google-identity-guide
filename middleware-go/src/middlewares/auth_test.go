@@ -68,7 +68,7 @@ func TestAuthMiddlewareFailures(t *testing.T) {
         resp, err := app.Test(req)
         require.NoError(t, err)
 
-        assert.Equal(t, 401, resp.StatusCode)
+        assert.Equal(t, 400, resp.StatusCode)
         authClient.AssertExpectations(t)
     })
 
@@ -85,14 +85,14 @@ func TestAuthMiddlewareFailures(t *testing.T) {
         resp, err := app.Test(req)
         require.NoError(t, err)
 
-        assert.Equal(t, 401, resp.StatusCode)
+        assert.Equal(t, 400, resp.StatusCode)
         authClient.AssertExpectations(t)
     })
 
     t.Run("Should fail if token verification func returns an error", func(t *testing.T) {
         authClient := new(MockAuthClient)
         token := &auth.Token{}
-        authClient.On("VerifyIDToken", mock.Anything, "token123").Return(token, assert.AnError)
+        authClient.On("VerifyIDToken", mock.Anything, "token222").Return(token, assert.AnError)
 
         app := fiber.New()
         app.Get("/", UseAuth(authClient), func(c *fiber.Ctx) error {
@@ -100,7 +100,7 @@ func TestAuthMiddlewareFailures(t *testing.T) {
         })
 
         req := httptest.NewRequest("GET", "/", nil)
-        req.Header.Set("Authorization", "Bearer token123")
+        req.Header.Set("Authorization", "Bearer token222")
         resp, err := app.Test(req)
         require.NoError(t, err)
 
@@ -114,7 +114,7 @@ func TestAuthMiddlewareFailures(t *testing.T) {
             UID:    "UID123",
             Claims: map[string]interface{}{"email": "x@gmail.com"},
         }
-        authClient.On("VerifyIDToken", mock.Anything, "token123").Return(token, nil)
+        authClient.On("VerifyIDToken", mock.Anything, "token333").Return(token, nil)
 
         app := fiber.New()
         app.Get("/", UseAuth(authClient), func(c *fiber.Ctx) error {
@@ -122,7 +122,7 @@ func TestAuthMiddlewareFailures(t *testing.T) {
         })
 
         req := httptest.NewRequest("GET", "/", nil)
-        req.Header.Set("Authorization", "Bearer token123")
+        req.Header.Set("Authorization", "Bearer token333")
         resp, err := app.Test(req)
         require.NoError(t, err)
 

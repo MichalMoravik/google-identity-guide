@@ -22,7 +22,7 @@ func UseAuth(authClient AuthClient) fiber.Handler {
         authHeader := c.Get("Authorization")
         if authHeader == "" {
             log.Println("Missing Authorization header")
-            return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+            return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
                 "message": "Missing Authorization header",
             })
         }
@@ -31,7 +31,7 @@ func UseAuth(authClient AuthClient) fiber.Handler {
         val := strings.Split(authHeader, " ")
         if len(val) != 2 {
             log.Println("Invalid Authorization header")
-            return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+            return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
                 "message": "Invalid Authorization header",
             })
         }
