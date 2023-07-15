@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  backend:
+  middleware-go:
     build:
       context: .
       dockerfile: Dockerfile.dev
