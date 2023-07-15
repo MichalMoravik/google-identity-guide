@@ -1,12 +1,14 @@
 {
-  "name": "blocking-functions-auth-google",
+  "name": "blocking-functions-auth-email",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "jest --watchAll --silent",
-    "deploy-sign-in": "gcloud functions deploy beforeSignIn --runtime nodejs20 --trigger-http --allow-unauthenticated --region=europe-central2 --set-env-vars ADMIN_EMAILS='miso.moravik4@gmail.com'"
+    "deploy-sign-in": "gcloud functions deploy beforeSignIn --runtime nodejs20 --trigger-http --allow-unauthenticated --region=europe-central2 --set-env-vars ADMIN_EMAILS='miso.moravik4@gmail.com'",
+    "deploy-create": "gcloud functions deploy beforeCreate --runtime nodejs20 --trigger-http --allow-unauthenticated --region=europe-central2 --set-env-vars ADMIN_EMAILS='miso.moravik4@gmail.com'",
+    "deploy": "npm run deploy-sign-in && npm run deploy-create"
   },
   "repository": {
     "type": "git",
