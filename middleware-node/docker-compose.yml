@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  middleware-node:
+    build: .
+    command: npm run dev
+    ports:
+      - 8088:8088
+    environment:
+      PORT: "8088"
+      GOOGLE_APPLICATION_CREDENTIALS: "/gcp/credentials.json"
+      GCP_PROJECT_ID: "elevated-cat-392517"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - $HOME/.config/gcloud/application_default_credentials.json:/gcp/credentials.json:ro
+
