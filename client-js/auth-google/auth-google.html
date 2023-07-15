@@ -25,7 +25,7 @@
                 firebase.auth().currentUser.getIdTokenResult(true)
                 .then(result => {
                     if (result.claims.role === 'admin') {
-                        window.location.href = 'admin.html';
+                        window.location.href = 'auth-google-admin.html';
                     }
                 })
                 .catch(error => console.log(error))
