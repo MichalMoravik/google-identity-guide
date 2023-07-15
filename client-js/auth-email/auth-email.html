@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Registration</h1>
+    <input type="email" id="reg-email" placeholder="Email">
+    <input type="password" id="reg-password" placeholder="Password">
+    <button id="reg-btn">Register with Email</button>
+
+    <h1>Sign In</h1>
+    <input type="email" id="sign-in-email" placeholder="Email">
+    <input type="password" id="sign-in-password" placeholder="Password">
+    <button id="sign-in-btn">Sign in with Email</button>
+
+    <script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
+    <script>
+      var config = {
+        apiKey: "AIzaSyClrNDRQ5j_S0cJVbvtpYr0HT2qNJTc0oQ",
+        authDomain: "tonal-volt-392911.firebaseapp.com",
+      };
+      firebase.initializeApp(config);
+    </script>
+    <script>
+        const regBtn = document.querySelector('#reg-btn');
+        regBtn.addEventListener('click', () => {
+            const email = document.querySelector('#reg-email').value.trim();
+            const password = document.querySelector('#reg-password').value.trim();
+
+            registerWithEmail(email, password)
+        });
+
+        const signInBtn = document.querySelector('#sign-in-btn');
+        signInBtn.addEventListener('click', () => {
+            const email = document.querySelector('#sign-in-email').value.trim();
+            const password = document.querySelector('#sign-in-password').value.trim();
+
+            signInWithEmail(email, password)
+        });
+
+        function registerWithEmail(email, password) {
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(cred => console.log(cred.user))
+            .catch(error => console.log(error));
+        }
+
+        function signInWithEmail(email, password) {
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(() =>
+                firebase.auth().currentUser.getIdTokenResult(true)
+                .then(result => {
+                    console.log("claims: ", result.claims);
+
+                    if (result.claims.role === 'admin') {
+                        window.location.href = 'auth-email-admin.html';
+                    }
+                })
+                .catch(error => console.log(error))
+            )
+            .catch(error => console.log(error));
+        }
+    </script>
+</body>
+</html>
