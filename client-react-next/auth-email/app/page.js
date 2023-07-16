@@ -1,7 +1,11 @@
 'use client';
 import { useState } from 'react';
 import { auth } from './firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification
+} from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
@@ -16,6 +20,13 @@ export default function Home() {
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       console.log(cred.user);
+
+      await sendEmailVerification(auth.currentUser, {
+        // change this based on your domain (e.g. through env vars)
+        // Important: add this domain to the email/password provider's "Authorized domains" list
+        url: 'http://localhost:3000'
+      });
+      console.log('Email Sent');
     } catch (error) {
       console.log(error);
     }
