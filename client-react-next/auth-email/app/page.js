@@ -15,6 +15,7 @@ export default function Home() {
   const [signInPassword, setSignInPassword] = useState('');
   const [regEmail, setRegEmail] = useState('');
   const [regPassword, setRegPassword] = useState('');
+  const [error, setError] = useState('');
 
   const registerWithEmail = async (email, password) => {
     try {
@@ -27,8 +28,8 @@ export default function Home() {
         url: 'http://localhost:3000'
       });
       console.log('Email Sent');
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -40,8 +41,25 @@ export default function Home() {
       console.log("claims: ", claims);
 
       if (claims.role === 'admin') router.push('/admin');
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      if (err.code !== 'auth/internal-error') {
+          console.log('Unexpected error: ', err);
+      } else {
+        const regStatus = err.message.match(/"status":"(.*?)"/);
+        const status = regStatus ? regStatus[1] : '';
+        const regMessage = err.message.match(/"message":"(.*?)"/);
+        const message = regMessage ? regMessage[1] : '';
+
+        if (status === 'INVALID_ARGUMENT') {
+          if (message === 'UNVERIFIED_EMAIL') {
+            setError('Please verify your email before signing in. We just sent you another email');
+
+            await sendEmailVerification(auth.currentUser, { url: 'http://localhost:3000' });
+          }
+        } else {
+          console.log('Unhandled blocking error: ', err);
+        }
+      }
     }
   }
 
@@ -65,6 +83,7 @@ export default function Home() {
       </button>
 
       <h1>Sign in</h1>
+      {error && <p>{error}</p>}
       <input
         type="text"
         name="email"
