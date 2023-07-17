@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  middleware-go:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8089:8089
+    environment:
+      PORT: "8089"
+      GOOGLE_APPLICATION_CREDENTIALS: "/gcp/credentials.json"
+      GCP_PROJECT_ID: "elevated-cat-392517"
+    volumes:
+      - ./:/app
+      - $HOME/.config/gcloud/application_default_credentials.json:/gcp/credentials.json:ro
