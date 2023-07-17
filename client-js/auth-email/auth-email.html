@@ -45,7 +45,11 @@
 
         function registerWithEmail(email, password) {
             firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(user => user.sendEmailVerification({ url: 'http://127.0.0.1:8080' }))
+            .then(cred => {
+                return cred.user.sendEmailVerification({
+                    url: 'http://127.0.0.1:8080/auth-email.html'
+                })
+            })
             .then(() => {
                 const msgTag = document.querySelector('#msg');
                 msgTag.innerHTML = `Please verify your email before signing in`;
@@ -61,7 +65,7 @@
             .then(result => {
                 if (!result.claims.email_verified) {
                     return firebase.auth().currentUser.sendEmailVerification({
-                        url: 'http://127.0.0.1:8080'
+                        url: 'http://127.0.0.1:8080/auth-email.html'
                     })
                     .then(() => {
                         const msgTag = document.querySelector('#msg');
@@ -71,6 +75,8 @@
                         return firebase.auth().signOut()
                     })
                 }
+
+                console.log('Signed in as: ', result.claims.email);
 
                 if (result.claims.role === 'admin') {
                     window.location.href = 'auth-email-admin.html';
