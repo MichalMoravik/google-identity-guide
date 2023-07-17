@@ -45,10 +45,19 @@ func UseAuth(authClient AuthClient) fiber.Handler {
             })
         }
 
+        // Only needed for untrusted providers (e.g. email/password)
+        // But I suggest verifying it for all providers
+        if decodedToken.Claims["email_verified"] != true {
+            log.Println("Email not verified")
+            return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+                "message": "Email not verified",
+            })
+        }
+
         if _, ok := decodedToken.Claims["role"]; !ok {
             log.Println("Role not present in token")
             return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-                "message": "Invalid authentication token",
+                "message": "Role not present in token",
             })
         }
 

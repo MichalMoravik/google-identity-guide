@@ -29,7 +29,11 @@ func TestAuthMiddlewareSuccess(t *testing.T) {
         authClient := new(MockAuthClient)
         token := &auth.Token{
             UID:    "UID123",
-            Claims: map[string]interface{}{"email": "x@gmail.com", "role": "admin"},
+            Claims: map[string]interface{}{
+                "email": "x@gmail.com",
+                "role": "admin",
+                "email_verified": true,
+            },
         }
         authClient.On("VerifyIDToken", mock.Anything, "token123").Return(token, nil)
 
@@ -108,11 +112,40 @@ func TestAuthMiddlewareFailures(t *testing.T) {
         authClient.AssertExpectations(t)
     })
 
+    t.Run("Should fail as the email_verified claim in the token is false", func(t *testing.T) {
+        authClient := new(MockAuthClient)
+        token := &auth.Token{
+            UID:    "UID123",
+            Claims: map[string]interface{}{
+                "email": "x@gmail.com",
+                "email_verified": false,
+                "role": "admin",
+            },
+        }
+        authClient.On("VerifyIDToken", mock.Anything, "token444").Return(token, nil)
+
+        app := fiber.New()
+        app.Get("/", UseAuth(authClient), func(c *fiber.Ctx) error {
+            return c.SendString("Success")
+        })
+
+        req := httptest.NewRequest("GET", "/", nil)
+        req.Header.Set("Authorization", "Bearer token444")
+        resp, err := app.Test(req)
+        require.NoError(t, err)
+
+        assert.Equal(t, 401, resp.StatusCode)
+        authClient.AssertExpectations(t)
+    })
+
     t.Run("Should fail as user is required to have a role", func(t *testing.T) {
         authClient := new(MockAuthClient)
         token := &auth.Token{
             UID:    "UID123",
-            Claims: map[string]interface{}{"email": "x@gmail.com"},
+            Claims: map[string]interface{}{
+                "email": "x@gmail.com",
+                "email_verified": true,
+            },
         }
         authClient.On("VerifyIDToken", mock.Anything, "token333").Return(token, nil)
 

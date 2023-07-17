@@ -23,6 +23,7 @@ describe('useAuth Middleware', () => {
       uid: 'UID123',
       email: 'x@gmail.com',
       role: 'admin',
+      email_verified: true,
     };
 
     mockAuthClient.verifyIdToken.mockResolvedValue(decodedToken);
@@ -78,10 +79,33 @@ describe('useAuth Middleware', () => {
     expect(response.status).toBe(401);
   });
 
+  it('Should fail as the email_verified claim in the token is false', async () => {
+    const decodedToken = {
+      uid: 'UID123',
+      email: 'x@gmail.com',
+      role: 'admin',
+      email_verified: false,
+    };
+
+    mockAuthClient.verifyIdToken.mockResolvedValue(decodedToken);
+
+    app.get('/', (req, res) => {
+      res.send('Success');
+    });
+
+    const response = await request(app)
+      .get('/')
+      .set('Authorization', 'Bearer token666');
+
+    expect(mockAuthClient.verifyIdToken).toHaveBeenCalledWith('token666');
+    expect(response.status).toBe(401);
+  });
+
   it('Should fail as the token does not include "role"', async () => {
     const decodedToken = {
       uid: 'UID123',
       email: 'x@gmail.com',
+      email_verified: true,
     };
 
     mockAuthClient.verifyIdToken.mockResolvedValue(decodedToken);

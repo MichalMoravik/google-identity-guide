@@ -9,7 +9,7 @@ services:
     environment:
       PORT: "8088"
       GOOGLE_APPLICATION_CREDENTIALS: "/gcp/credentials.json"
-      GCP_PROJECT_ID: "elevated-cat-392517"
+      GCP_PROJECT_ID: "tonal-volt-392911"
     volumes:
       - .:/app
       - /app/node_modules
