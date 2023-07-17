@@ -6,6 +6,8 @@
     <title>Document</title>
 </head>
 <body>
+    <div id="msg"></div>
+
     <h1>Registration</h1>
     <input type="email" id="reg-email" placeholder="Email">
     <input type="password" id="reg-password" placeholder="Password">
@@ -43,24 +45,38 @@
 
         function registerWithEmail(email, password) {
             firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(cred => console.log(cred.user))
-            .catch(error => console.log(error));
+            .then(user => user.sendEmailVerification({ url: 'http://127.0.0.1:8080' }))
+            .then(() => {
+                const msgTag = document.querySelector('#msg');
+                msgTag.innerHTML = `Please verify your email before signing in`;
+
+                return firebase.auth().signOut()
+            })
+            .catch(err => console.log('Unexpected error: ', err));
         }
 
         function signInWithEmail(email, password) {
             firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() =>
-                firebase.auth().currentUser.getIdTokenResult(true)
-                .then(result => {
-                    console.log("claims: ", result.claims);
+            .then(() => firebase.auth().currentUser.getIdTokenResult(true))
+            .then(result => {
+                if (!result.claims.email_verified) {
+                    return firebase.auth().currentUser.sendEmailVerification({
+                        url: 'http://127.0.0.1:8080'
+                    })
+                    .then(() => {
+                        const msgTag = document.querySelector('#msg');
+                        msgTag.innerHTML = `Please verify your email before
+                        signing in. We have sent you another verification email`;
 
-                    if (result.claims.role === 'admin') {
-                        window.location.href = 'auth-email-admin.html';
-                    }
-                })
-                .catch(error => console.log(error))
-            )
-            .catch(error => console.log(error));
+                        return firebase.auth().signOut()
+                    })
+                }
+
+                if (result.claims.role === 'admin') {
+                    window.location.href = 'auth-email-admin.html';
+                }
+            })
+            .catch(err => console.log('Unexpected error: ', err));
         }
     </script>
 </body>
