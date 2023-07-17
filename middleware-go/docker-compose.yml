@@ -10,7 +10,7 @@ services:
     environment:
       PORT: "8089"
       GOOGLE_APPLICATION_CREDENTIALS: "/gcp/credentials.json"
-      GCP_PROJECT_ID: "elevated-cat-392517"
+      GCP_PROJECT_ID: "tonal-volt-392911"
     volumes:
       - ./:/app
       - $HOME/.config/gcloud/application_default_credentials.json:/gcp/credentials.json:ro
