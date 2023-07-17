@@ -22,9 +22,16 @@ function useAuth(authClient) {
       return res.status(401).json({ message: 'Invalid authentication token' });
     }
 
+    // Only needed for untrusted providers (e.g. email/password)
+    // But I suggest verifying it for all providers
+    if (!decodedToken.email_verified) {
+      console.log('Email not verified');
+      return res.status(401).json({ message: 'Email not verified' });
+    }
+
     if (!decodedToken.role) {
       console.log('Role not present in token');
-      return res.status(401).json({ message: 'Invalid authentication token' });
+      return res.status(401).json({ message: 'Role not present in token' });
     }
 
     const user = {
