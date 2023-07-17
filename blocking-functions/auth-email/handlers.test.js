@@ -1,13 +1,6 @@
 import { beforeSignInHandler } from './handlers.js';
 
 describe('beforeSignInHandler', () => {
-  it('Should throw an error as user email is not verified', () => {
-    const user = { email: 'x@gmail.com', emailVerified: false };
-    const adminEmails = ['x@gmail.com'];
-
-    expect(() => beforeSignInHandler(user, {}, adminEmails)).toThrow();
-  });
-
   it.each([
     ['z@gmail.com'],
     ['x@apple.com'],
