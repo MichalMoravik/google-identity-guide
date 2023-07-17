@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Admin</title>
+</head>
+<body>
+    <h1>Admin</h1>
+
+    <script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
+    <script>
+        var config = {
+            apiKey: "AIzaSyClrNDRQ5j_S0cJVbvtpYr0HT2qNJTc0oQ",
+            authDomain: "tonal-volt-392911.firebaseapp.com",
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script>
+        function checkRole() {
+            firebase.auth().onAuthStateChanged(user => {
+                if (!user) {
+                    window.location.href = 'auth-email.html';
+                } else {
+                    user.getIdTokenResult(true)
+                    .then(result => {
+                        if (result.claims.role !== 'admin') {
+                            window.location.href = 'auth-email.html';
+                        }
+                    })
+                    .catch(error => console.log(error));
+                }
+            });
+        }
+        window.onload = checkRole;
+    </script>
+</body>
+</html>
