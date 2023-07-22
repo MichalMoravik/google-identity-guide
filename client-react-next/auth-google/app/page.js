@@ -12,7 +12,7 @@ export default function Home() {
       await signInWithPopup(auth, provider);
 
       // Print token to test the middlewares later on via HTTP client
-      console.log(await auth.currentUser.getIdToken(true));
+      // console.log(await auth.currentUser.getIdToken(true));
 
       const { claims } = await auth.currentUser.getIdTokenResult(true);
       if (claims.role === 'admin') router.push('/admin');
