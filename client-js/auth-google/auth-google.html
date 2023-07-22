@@ -21,6 +21,11 @@
             const provider = new firebase.auth.GoogleAuthProvider();
 
             firebase.auth().signInWithPopup(provider)
+            // Print token to test the middlewares later on via HTTP client
+            /* .then(() => {
+                firebase.auth().currentUser.getIdToken()
+                .then(token => console.log(token))
+            }) */
             .then(() =>
                 firebase.auth().currentUser.getIdTokenResult(true)
                 .then(result => {

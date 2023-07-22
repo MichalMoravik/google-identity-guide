@@ -22,6 +22,11 @@
                 if (!user) {
                     window.location.href = 'auth-google.html';
                 } else {
+                    // Print token to test the middlewares later on via HTTP client
+                    /* firebase.auth().currentUser.getIdToken()
+                    .then(token => console.log(token))
+                    .catch(error => console.log(error)); */
+
                     user.getIdTokenResult(true)
                     .then(result => {
                         if (result.claims.role !== 'admin') {
