@@ -28,7 +28,6 @@ func UseAuthZ(requiredRole string) fiber.Handler {
         }
 
         if user.Role != requiredRole {
-            // print the user who tried to access the route
             log.Printf("User with email %s and role %s tried to access " +
                 "a route that was for the %s role only",
                 user.Email, user.Role, requiredRole)
