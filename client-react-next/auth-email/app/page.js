@@ -35,6 +35,9 @@ export default function Home() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
 
+      // Print token to test the middlewares later on via HTTP client
+      // console.log(await auth.currentUser.getIdToken(true));
+
       const { claims } = await auth.currentUser.getIdTokenResult(true);
 
       if (!claims.email_verified) {
