@@ -1,16 +1,19 @@
 # Ultimate Guide to User Authorization with Identity Platform
 
-The ultimate guide that can be found HERE (LINK) explains all concepts needed
-for you to implement the full user authentication and
-role-based authorization (a.k.a RBAC) using Google Identity Platform.
 
-The code in this repository is fully functional; you can use it to construct the
-full flow.
+Learn to implement user authentication and role-based authorization (RBAC) using Google Identity Platform in this ultimate guide.
 
+**Link to guide:** TO ADD
+
+The code in this repository is fully functional; you can use it to construct the full auth/authz flow.
+
+<br />
 
 ## Flow
 
-[img here]
+![diagram](https://github.com/MichalMoravik/google-identity-guide/assets/32333157/9651c89b-deec-4e3e-b6f5-b35d454c7999)
+
+<br />
 
 1. User signs up (or in) via the web client
 2. Google Identity Platform (GIP) verifies the request and triggers blocking functions
