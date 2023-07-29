@@ -11,7 +11,7 @@ The code in this repository is fully functional; you can use it to construct the
 
 ## Flow
 
-![diagram](https://github.com/MichalMoravik/google-identity-guide/assets/32333157/9651c89b-deec-4e3e-b6f5-b35d454c7999)
+![d1](https://github.com/MichalMoravik/google-identity-guide/assets/32333157/e6510e8d-a635-494b-9f23-82aed18eb18b)
 
 <br />
 
