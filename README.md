@@ -3,7 +3,7 @@
 
 Learn to implement user authentication and role-based authorization (RBAC) using Google Identity Platform in this ultimate guide.
 
-**Link to guide:** TO ADD
+[**Link to guide**](https://dev.to/michalmoravik/ultimate-guide-to-user-authorization-with-identity-platform-5ekg)
 
 The code in this repository is fully functional; you can use it to construct the full auth/authz flow.
 
