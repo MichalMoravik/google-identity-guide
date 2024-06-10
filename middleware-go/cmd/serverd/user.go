@@ -1,4 +1,4 @@
-package main
+package serverd
 
 type User struct {
 	UID   string
