@@ -40,5 +40,5 @@ The code in this repository is fully functional; you can use it to construct the
 
 - client code can by run simply by `npm i` in the appropriate folder and then `npm run dev` or by using live-server (in the Vanilla JS case)
 - blocking function code cannot be run locally but the unit tests can be run by `npm i` first and then `npm run test`
-- middleware Go code can be run by `docker-compose up` in its folder
+- middleware Go code can be run by `docker-compose up` in its folder. Then send requests to `http://127.0.0.1:8089/user`
 - middleware Node code can be run by `docker-compose up` in its folder
