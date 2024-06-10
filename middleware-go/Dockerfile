@@ -5,9 +5,9 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
-COPY src/ /app/src
+COPY cmd/ /app/cmd
 
-RUN go build -o server ./src
+RUN go build -o server ./cmd
 EXPOSE 8080
 
 CMD ["/app/server"]

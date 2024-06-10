@@ -2,6 +2,6 @@
 *
 
 # except the following
-!src
+!cmd
 !package.json
 !package-lock.json
